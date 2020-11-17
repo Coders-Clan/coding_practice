@@ -1,41 +1,85 @@
-#include <bits/stdc++.h>
+#include<iostream>
+#include<conio.h>
+#include<ctype.h>
+
 using namespace std;
 
-# define MAX 50
-class Stack{
-	int top;
-public:
-    char arr[MAX];
-	Stack(){top=-1;}
+/*
+	The program will evaluate a postfix expression that contains digits and operators.
+	The program tries to simulate the microprocessor execution stack or evaluation
+	of expression.
+ */
 
-	char push(char item)
-	{
-		if(top>=(MAX-1))
-		 cout<<"Stack overflow";
-		else
-		 arr[++top]=item;
-	}
-	char pop()
-	{
-		if(top<0)
-		 cout<<"Stack underflow";
-		else
-		{
-		 int item=arr[top--];
-		 return item;
-		}
-	}
-};	
-	int main()
-	{
-		Stack s;
+//The class performing the evaluation
+class Evaluation {
+	public:
+		int st[50];
+		int top;
 		char str[50];
-		gets(str);
-		for(int i=0;i<strlen(str);i++)
-		  s.push(str[i]);
-		for(int i=0;i<strlen(str);i++)  
-		  str[i]=s.pop();
-	cout<<"The reverse string is:";
-	puts(str);
-	return 0;
+		Evaluation() {
+			top = -1;
+		}
+
+		//function to push the item
+		void push(int item) {
+			top++;
+			st[top] = item;
+		}
+
+		//function to pop an item
+		int pop() {
+			int item = st[top];
+			top--;
+			return item;
+		}
+
+		//function to perform the operation depending on the operator.
+		int operation(int a,int b,char opr) {
+			switch(opr) {
+				case '+':return a+b;
+				case '-':return a-b;
+				case '*':return a*b;
+				case '/':return a/b;
+				default: return 0;
+			}
+		}
+
+		int calculatePostfix();
+};
+
+//This is the function that calculates the result of postfix expression.
+int Evaluation::calculatePostfix() {
+	int index = 0;
+	while(str[index]!='#') {
+		if(isdigit(str[index])) {
+			push(str[index]-'0');
+		}
+		else {
+			int x = pop();
+			int y = pop();
+			int result = operation(x,y,str[index]);
+			push(result);
+		}
+		index++;
 	}
+	return pop();
+}
+
+/*
+	main function that reads the postfix expression and	that prints the result.
+
+	The input expression should be ending with a number
+	An example input expression would be:
+	123*+
+	Its output will be 7.
+
+*/
+int main() {
+	void clrscr();
+	Evaluation eval;
+	cout << "Enter the postfix: ";
+	cin >> eval.str;
+	int result = eval.calculatePostfix();
+	cout << "the result is " << result;
+	getch();
+}
