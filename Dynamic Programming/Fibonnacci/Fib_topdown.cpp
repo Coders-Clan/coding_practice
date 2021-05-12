@@ -17,3 +17,7 @@ int main()
     int dp[100] = {0};
     cout<<fib(n,dp)<<endl;
 }
+
+// Dynamic Programming reduces the complexity of computing Fibonnaci from O(2^n) to O(n)
+// Time complexity = O(n)
+// Space complexity = O(n)        
