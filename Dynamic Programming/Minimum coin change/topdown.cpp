@@ -3,7 +3,7 @@ using namespace std;
 
 int minCoins(int n, int coins[], int T, int dp[])
 {
-    int ans;
+    int ans = INT_MAX;
     //base case:
     if (n == 0)
         return 0;
